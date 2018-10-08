@@ -1,0 +1,76 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <link rel="Shortcut Icon" href="/public/favicon.ico" type="image/x-icon">
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 50%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0;padding-bottom: 50px;
+    height: 100vh;
+    overflow: auto; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+  </head>
+  <body>
+    <div style="width: 50%;margin: 0 auto">
+      <!-- <button onclick="login()" style="float:right;">登录测试</button> -->
+      <ul id="messages"></ul>
+      <form action="">
+        <input id="m" autocomplete="off" /><button>Send</button>
+      </form>
+    </div>
+    <script src="https://cdn.bootcss.com/socket.io/2.0.4/socket.io.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      function display_msg(msg) {
+        $('#messages').append($('<li>').text(msg))
+      }
+      const public = io({path: (location.port == "" || location.port == "80" || location.port == "443") ? "/socketio/ws" : "/ws"})
+      // var public = io("http://product.com:6500", {path: "/ws"})
+      $('form').submit(function(){
+        var msg = $('#m').val()
+        login(msg)
+        // public.emit('echo', msg)
+        $('#m').val('');
+        return false;
+      });
+
+      public.on('connect', () => {
+        console.log(public.id);
+      });
+
+      public.on('market_up_down', (msg) => {
+        console.log('market_up_down', msg)
+      })
+
+      public.on('index_price', (msg) => {
+        console.log('index_price', msg)
+      })
+
+      public.on('sector_chg_caution', (msg) => {
+        console.log('sector_chg_caution', msg)
+      })
+
+      public.on('market_monitor', (msg) => {
+        console.log('market_monitor', msg)
+      })
+
+      function login(token){
+        // public.emit("login", {token: Math.random().toString(34).substr(2)})
+        public.emit("common_login", {token: token})
+        setInterval(() => {
+          public.emit("private_monitor", {
+            token: token,
+            subscribes: [[0, 600123], [0, 2403], [1, 2238]]
+          })
+
+        }, 5000)
+      }
+    </script>
+  </body>
+</html>
