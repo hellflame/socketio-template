@@ -1,6 +1,6 @@
-# express 开发环境搭建模版
+# socketio 开发环境搭建模版
 
-用于开发 `express 服务`
+用于开发 `socketio 服务`
 
 基于 `babel` 进行 `es6` 语法的转译，在开发时使用 `es6` 语法，发布时转译为 `node` 可直接解释的 `es5` 代码
 
@@ -17,31 +17,44 @@
 ### 目录结构
 
 ```
-├── docs						# 文档
+├── docs	# 文档
+│   ├── index.html
 │   ├── .nojekyll
-│   ├── README.md
-│   └── index.html
-├── project						# 开发目录
+│   └── README.md
+├── project	# 开发目录
+│   ├── model	
+│   ├── pages	# express 服务
+│   │   ├── service	# express 服务映射
+│   │   │   └── monitor.js
+│   │   ├── templates	# 前端模板
+│   │   │   └── monitor.html
+│   │   └── route.js	# express 路由
+│   ├── socketio	# socketio 服务
+│   │   ├── hooks	# socketio 事件注册
+│   │   │   ├── event	# 监听注册
+│   │   │   │   ├── echo.js
+│   │   │   │   └── index.js
+│   │   │   └── loop	# 轮训事件
+│   │   │       ├── broadcast.js
+│   │   │       └── index.js
+│   │   └── route.js	# socketio 事件路由
 │   ├── utils
 │   │   ├── arg_parse.js
+│   │   ├── common.js
+│   │   ├── log.js
 │   │   └── meta.js
+│   ├── config.js
 │   └── index.js
-├── release						# 发布目录
-│   ├── utils
-│   │   ├── arg_parse.js
-│   │   ├── arg_parse.js.map
-│   │   ├── meta.js
-│   │   └── meta.js.map
-│   ├── index.js
-│   └── index.js.map
-├── test						# 测试目录
+├── test	# 测试目录
 │   └── start.test.js
-├── .babelrc					# babel 配置文件
-├── .editorconfig				# editorconfig 配置文件
+├── .babelrc	 # babel 配置文件
+├── .editorconfig	# editorconfig 配置文件
 ├── .gitignore
-├── README.md
-├── jest.json					# jest 测试配置文件
-└── package.json
+├── jest.json	# jest 测试配置文件
+├── LICENSE
+├── package.json
+├── package-lock.json
+└── README.md
 ```
 
 #### 目录说明
@@ -53,6 +66,7 @@
 5. `.babelrc` 文件主要用于转译配置，包含路由映射配置，暂时将 `@` 映射为 `project` 目录，可根据需要添加
 6. `.editorconfig` 文件为 editorconfig 配置文件，需要编辑器支持
 7. `jest.json` 包含测试配置项，其中包含测试用例中的模块映射，这里的模块映射与 `project` 下的模块映射不同，不能混在一起
+8. `config.js` 中定义了 `socketio` 监听的路由，使用版本号控制
 
 #### 命令说明
 
@@ -74,3 +88,7 @@
 ##### 文档服务
 
 这里只给出了文档服务最基本的配置，更多配置以及插件可以到官网查看 [docsify](https://docsify.js.org)
+
+##### 服务测试
+
+`monitor.html` 中给出了测试 `socketio` 的基础环境

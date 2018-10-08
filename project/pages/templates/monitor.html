@@ -30,7 +30,7 @@
       function display_msg(msg) {
         $('#messages').append($('<li>').text(msg))
       }
-      const public = io({path: (location.port == "" || location.port == "80" || location.port == "443") ? "/socketio/ws" : "/ws"})
+      const public = io({path: (location.port == "" || location.port == "80" || location.port == "443") ? "/socketio/ws" : "/v0.1/ws"})
       // var public = io("http://product.com:6500", {path: "/ws"})
       $('form').submit(function(){
         var msg = $('#m').val()

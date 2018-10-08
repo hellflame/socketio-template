@@ -51,3 +51,5 @@ export const create_logger = (level="info", label_="customize", save_to_file=nul
 }
 
 export const common_logger = create_logger("info", "common")
+export const express_logger = create_logger("info", "express")
+export const socketio_logger = create_logger("info", "socketio")

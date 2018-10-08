@@ -88,3 +88,7 @@
 ##### 文档服务
 
 这里只给出了文档服务最基本的配置，更多配置以及插件可以到官网查看 [docsify](https://docsify.js.org)
+
+##### 服务测试
+
+`monitor.html` 中给出了测试 `socketio` 的基础环境
